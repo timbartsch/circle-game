@@ -33,6 +33,7 @@ BasicGame.Game.prototype = {
 
 		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
 
+    BasicGame.score = 0;
     this.background = this.game.add.sprite(0, 0, "background");
     this.background.inputEnabled = true;
     this.background.events.onInputUp.add(this.onBackgroundInputUp, this);
@@ -45,10 +46,6 @@ BasicGame.Game.prototype = {
 	update: function () {
 
 		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
-    //
-    if(BasicGame.score < 0) {
-      this.quitGame();
-    }
 
 	},
 
@@ -91,6 +88,9 @@ BasicGame.Game.prototype = {
   updateScore: function(scoreChange){
     BasicGame.score += scoreChange;
     this.scoreText.setText("Score: " + BasicGame.score);
+    if(BasicGame.score < 0) {
+      this.quitGame();
+    }
   }
 
 };
