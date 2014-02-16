@@ -26,6 +26,7 @@ BasicGame.Preloader.prototype = {
 		//	As this is just a Project Template I've not provided these assets, the lines below won't work as the files themselves will 404, they are just an example of use.
 		this.load.image('titlepage', 'images/title.png');
 		this.load.image('playButton', 'images/play_button.png');
+		this.load.image('background', 'images/background.png');
 		this.load.image('circle', 'images/circle.png');
 
 		//	+ lots of other required assets here
