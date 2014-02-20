@@ -66,8 +66,6 @@ BasicGame.Game.prototype = {
   startLevel: function(level){
     this.level = level;
 
-    console.log("LEVEL", level);
-    
     var circlesCount = this.levels[this.level].circles;
     var timeBetweenCircles = this.levels[this.level].timeBetweenCircles;
     var i;
@@ -98,9 +96,7 @@ BasicGame.Game.prototype = {
 		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
     
 
-    if(this.circles.countDead() === this.levels[this.level].circles) {
-      this.startNextLevel();
-    }
+
 
 	},
 
@@ -138,10 +134,17 @@ BasicGame.Game.prototype = {
     circleGrowTween.start();
   },
 
+  killCircle: function(circle){
+    circle.kill();
+    if(this.circles.countDead() === this.levels[this.level].circles) {
+      this.startNextLevel();
+    }
+  },
+
   onCircleShrinkEnd: function(pointer){
     var circle = this;
 
-    circle.kill();
+    circle.game.killCircle(circle);
     circle.game.updateScore(-5);
     circle.game.misses += 1;
     if(circle.game.misses > 3) {
@@ -152,7 +155,7 @@ BasicGame.Game.prototype = {
   onCircleInputUp: function(circle, pointer){
     circle.growTween.stop();
     circle.shrinkTween.stop();
-    circle.kill();
+    this.killCircle(circle);
     this.updateScore(+5);
   },
 
