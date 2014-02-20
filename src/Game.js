@@ -98,7 +98,6 @@ BasicGame.Game.prototype = {
 		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
     
 
-    console.log(this.circles.countDead());
     if(this.circles.countDead() === this.levels[this.level].circles) {
       this.startNextLevel();
     }
@@ -111,7 +110,7 @@ BasicGame.Game.prototype = {
 		//	Stop music, delete sprites, purge caches, free resources, all that good stuff.
     
     this.scoreText.destroy();
-    this.circles.destroy(true);
+    //this.circles.destroy(true);
     this.background.destroy();
 
 		//	Then let's go back to the main menu.
@@ -142,7 +141,6 @@ BasicGame.Game.prototype = {
   onCircleShrinkEnd: function(pointer){
     var circle = this;
 
-    console.log("MISS");
     circle.kill();
     circle.game.updateScore(-5);
     circle.game.misses += 1;
