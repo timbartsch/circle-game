@@ -56,7 +56,8 @@ BasicGame.Game.prototype = {
     this.background = this.game.add.sprite(0, 0, "background");
     this.background.inputEnabled = true;
     this.background.events.onInputUp.add(this.onBackgroundInputUp, this);
-    this.scoreText = this.game.add.text(0, 0, "Score: " + BasicGame.score);
+    var scoreTextStyle = { font: "40px Helvetica", fill: "#ccc", align: "center" };
+    this.scoreText = this.game.add.text(this.world.centerX, this.world.centerY, "0", scoreTextStyle);
     this.levelText = this.game.add.text(200, 0, "Level: " + this.level);
     this.circles = this.game.add.group();
 
@@ -165,7 +166,7 @@ BasicGame.Game.prototype = {
 
   updateScore: function(scoreChange){
     BasicGame.score += scoreChange;
-    this.scoreText.setText("Score: " + BasicGame.score);
+    this.scoreText.setText(BasicGame.score);
   }
 
 };
