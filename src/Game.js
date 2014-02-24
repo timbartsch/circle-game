@@ -54,6 +54,7 @@ BasicGame.Game.prototype = {
     this.background.events.onInputUp.add(this.onBackgroundInputUp, this);
     var scoreTextStyle = { font: "40px Helvetica", fill: "#ccc", align: "center" };
     this.scoreText = this.game.add.text(this.world.centerX, this.world.centerY, "0", scoreTextStyle);
+    this.scoreText.anchor.setTo(0.5, 0.5);
     this.levelText = this.game.add.text(200, 0, "Level: " + this.level);
     this.circles = this.game.add.group();
 
