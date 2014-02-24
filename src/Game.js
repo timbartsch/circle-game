@@ -52,14 +52,34 @@ BasicGame.Game.prototype = {
     this.background = this.game.add.sprite(0, 0, "background");
     this.background.inputEnabled = true;
     this.background.events.onInputUp.add(this.onBackgroundInputUp, this);
-    var scoreTextStyle = { font: "40px Helvetica", fill: "#ccc", align: "center" };
-    this.scoreText = this.game.add.text(this.world.centerX, this.world.centerY, "0", scoreTextStyle);
-    this.scoreText.anchor.setTo(0.5, 0.5);
-    this.levelText = this.game.add.text(200, 0, "Level: " + this.level);
+    this.levelText = this.game.add.text(this.world.centerX, this.world.centerY, "0", BasicGame.levelTextStyle);
+    this.levelText.anchor.setTo(0.5, 0.5);
+    this.levelText.scale.setTo(0, 0);
     this.circles = this.game.add.group();
+    this.scoreText = this.game.add.text(this.world.centerX, this.world.centerY, "0", BasicGame.scoreTextStyle);
+    this.scoreText.anchor.setTo(0.5, 0.5);
 
     this.startLevel(0); 
 	},
+
+  onScoreTextShrinkComplete: function(){
+    var tween = this.game.add.tween(this.levelText.scale)
+      .to({x: 1, y: 1}, 1000, Phaser.Easing.Quadratic.InOut);
+      tween.onComplete.add(this.onLevelTextGrowComplete, this)
+    tween.start();
+  },
+  onLevelTextGrowComplete: function(){
+    var tween = this.game.add.tween(this.levelText.scale)
+      .to({x: 0, y: 0}, 1000, Phaser.Easing.Quadratic.InOut)
+      .delay(1000);
+      tween.onComplete.add(this.onLevelTextShrinkComplete, this)
+    tween.start();
+  },
+  onLevelTextShrinkComplete: function(){
+    var tween = this.game.add.tween(this.scoreText.scale)
+      .to({x: 1, y: 1}, 1000, Phaser.Easing.Quadratic.InOut);
+    tween.start();
+  },
 
   startLevel: function(level){
     this.level = level;
@@ -68,9 +88,15 @@ BasicGame.Game.prototype = {
     var timeBetweenCircles = this.levels[this.level].timeBetweenCircles;
     var i;
     var deadCircles = [];
+    var delay = 5000;
 
-    this.levelText.setText("Level: " + level);
-
+    this.levelText.setText(level);
+    
+    var scoreTextTween = this.game.add.tween(this.scoreText.scale)
+      .to({x: 0, y: 0}, 1000, Phaser.Easing.Quadratic.InOut)
+    scoreTextTween.onComplete.add(this.onScoreTextShrinkComplete, this);
+    scoreTextTween.start();
+    
     this.circles.forEachDead(function(circle, i){
       deadCircles.push(circle);
     }, this);
@@ -80,7 +106,7 @@ BasicGame.Game.prototype = {
     }
 
     for(i = 0; i < circlesCount; i++){
-      this.game.time.events.add(timeBetweenCircles * (i + 1), this.createCircle, this);
+      this.game.time.events.add((timeBetweenCircles * (i + 1)) + delay, this.createCircle, this);
     }
 
   },
@@ -102,7 +128,6 @@ BasicGame.Game.prototype = {
     
 		//	Then let's go back to the main menu.
     localStorage.setItem("score", BasicGame.score);
-    console.log("QUIT GAME", localStorage.getItem("score"));
 		this.game.state.start('MainMenu');
 
 	},

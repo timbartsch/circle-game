@@ -7,7 +7,10 @@ BasicGame = {
     music: null,
 
     /* Your game can check BasicGame.orientated in internal loops to know if it should pause or not */
-    orientated: false
+    orientated: false,
+
+    scoreTextStyle: { font: "100 70px Helvetica Neue", fontWeight: "100", fill: "#ffffff", align: "center" },
+    levelTextStyle: { font: "100 300px Helvetica Neue", fontWeight: "100", fill: "#ffffff", align: "center" }
 
 };
 
