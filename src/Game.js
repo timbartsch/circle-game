@@ -30,26 +30,22 @@ BasicGame.Game = function (game) {
     this.level;
 
     this.levels = [
-      { circles: 10, timeBetweenCircles: 1000 },
-      { circles: 12, timeBetweenCircles: 900 },
-      { circles: 14, timeBetweenCircles: 800 },
-      { circles: 16, timeBetweenCircles: 700 },
-      { circles: 18, timeBetweenCircles: 600 },
-      { circles: 20, timeBetweenCircles: 500 },
-      { circles: 22, timeBetweenCircles: 400 },
-      { circles: 24, timeBetweenCircles: 300 },
-      { circles: 26, timeBetweenCircles: 200 },
-      { circles: 28, timeBetweenCircles: 100 },
+      { circles: 10, timeBetweenCircles: 1000}, //Level 0 
+      { circles: 12, timeBetweenCircles: 900 }, //Level 1
+      { circles: 14, timeBetweenCircles: 800 }, //Level 2
+      { circles: 16, timeBetweenCircles: 700 }, //Level 3
+      { circles: 18, timeBetweenCircles: 600 }, //Level 4
+      { circles: 20, timeBetweenCircles: 500 }, //Level 5
+      { circles: 22, timeBetweenCircles: 400 }, //Level 6
+      { circles: 24, timeBetweenCircles: 300 }, //Level 7
+      { circles: 26, timeBetweenCircles: 200 }, //Level 8
+      { circles: 28, timeBetweenCircles: 100 }, //Level 9 
     ];
 };
 
 BasicGame.Game.prototype = {
 
 	create: function () {
-
-		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
-    
-
     BasicGame.score = 0;
     this.misses = 0;
     this.level = 0;
@@ -93,12 +89,9 @@ BasicGame.Game.prototype = {
   },
 
 	update: function () {
-
-		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
-    
-
-
-
+    if(this.misses > 3) {
+      this.quitGame();
+    }
 	},
 
 	quitGame: function (pointer) {
@@ -106,11 +99,9 @@ BasicGame.Game.prototype = {
 		//	Here you should destroy anything you no longer need.
 		//	Stop music, delete sprites, purge caches, free resources, all that good stuff.
     
-    this.scoreText.destroy();
-    //this.circles.destroy(true);
-    this.background.destroy();
-
 		//	Then let's go back to the main menu.
+    localStorage.setItem("score", BasicGame.score);
+    console.log("QUIT GAME", localStorage.getItem("score"));
 		this.game.state.start('MainMenu');
 
 	},
@@ -148,9 +139,7 @@ BasicGame.Game.prototype = {
     circle.game.killCircle(circle);
     circle.game.updateScore(-5);
     circle.game.misses += 1;
-    if(circle.game.misses > 3) {
-      circle.game.quitGame();
-    }
+
   },
 
   onCircleInputUp: function(circle, pointer){

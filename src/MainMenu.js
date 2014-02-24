@@ -8,15 +8,12 @@ BasicGame.MainMenu = function (game) {
 BasicGame.MainMenu.prototype = {
 
 	create: function () {
-
-		//	We've already preloaded our assets, so let's kick right into the Main Menu itself.
-		//	Here all we're doing is playing some music and adding a picture and button
-		//	Naturally I expect you to do something significantly better :)
-
 		this.add.sprite(0, 0, 'titlepage');
-
+    var score = localStorage.getItem("score");
+    console.log("CREATE MAIN MENU", score);
+    var scoreTextStyle = { font: "40px Helvetica", fill: "#ccc", align: "center" };
+    this.scoreText = this.game.add.text(this.world.centerX, this.world.centerY, score, scoreTextStyle);
 		this.playButton = this.add.button(400, 600, 'playButton', this.startGame, this);
-
 	},
 
 	update: function () {
@@ -26,10 +23,7 @@ BasicGame.MainMenu.prototype = {
 	},
 
 	startGame: function (pointer) {
-
-		//	And start the actual game
 		this.game.state.start('Game');
-
 	}
 
 };
