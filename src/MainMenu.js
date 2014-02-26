@@ -11,7 +11,7 @@ BasicGame.MainMenu.prototype = {
     this.background = this.game.add.sprite(0, 0, "background");
     this.circle = this.game.add.sprite(this.world.centerX, this.world.centerY, "circle_big");
     this.circle.anchor.setTo(0.5, 0.5);
-    this.circle.scale.setTo(0.6, 0.6);
+    this.circle.scale.setTo(0, 0);
     this.circle.inputEnabled = true;
     this.circle.input.pixelPerfect = true;
     this.circle.events.onInputUp.add(this.startGame, this);
@@ -28,6 +28,10 @@ BasicGame.MainMenu.prototype = {
     var score = localStorage.getItem("score");
     this.scoreText = this.game.add.text(this.world.centerX, this.world.centerY, score, BasicGame.scoreTextStyle);
     this.scoreText.anchor.setTo(0.5, 0.5);
+    this.scoreText.scale.setTo(0, 0);
+    this.game.add.tween(this.scoreText.scale)
+      .to({x: 1, y: 1}, 4000, Phaser.Easing.Quadratic.InOut)
+      .start();
 	},
 
 	update: function () {

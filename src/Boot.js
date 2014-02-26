@@ -9,8 +9,8 @@ BasicGame = {
     /* Your game can check BasicGame.orientated in internal loops to know if it should pause or not */
     orientated: false,
 
-    scoreTextStyle: { font: "100 70px Helvetica Neue", fontWeight: "100", fill: "#ffffff", align: "center" },
-    levelTextStyle: { font: "100 300px Helvetica Neue", fontWeight: "100", fill: "#ffffff", align: "center" }
+    scoreTextStyle: { font: "100 60px Helvetica Neue", fontWeight: "100", fill: "#ffffff", align: "center" },
+    levelTextStyle: { font: "bold 300px Helvetica Neue", fontWeight: "100", fill: "#ffffff", align: "center" }
 
 };
 
@@ -22,8 +22,8 @@ BasicGame.Boot.prototype = {
     preload: function () {
 
         //  Here we load the assets required for our preloader (in this case a background and a loading bar)
-        this.load.image('preloaderBackground', 'images/preloader_background.png');
-        this.load.image('preloaderBar', 'images/preloadr_bar.png');
+        this.load.image('preloaderBackground', 'images/preloader_background.png?1');
+        this.load.image('preloaderBar', 'images/preloader_bar.png?1');
 
     },
 
