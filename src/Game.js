@@ -31,15 +31,16 @@ BasicGame.Game = function (game) {
 
     this.levels = [
       { circles: 10, timeBetweenCircles: 1000}, //Level 0 
-      { circles: 12, timeBetweenCircles: 900 }, //Level 1
-      { circles: 14, timeBetweenCircles: 800 }, //Level 2
-      { circles: 16, timeBetweenCircles: 700 }, //Level 3
-      { circles: 18, timeBetweenCircles: 600 }, //Level 4
-      { circles: 20, timeBetweenCircles: 500 }, //Level 5
-      { circles: 22, timeBetweenCircles: 400 }, //Level 6
-      { circles: 24, timeBetweenCircles: 300 }, //Level 7
-      { circles: 26, timeBetweenCircles: 200 }, //Level 8
-      { circles: 28, timeBetweenCircles: 100 }, //Level 9 
+      { circles: 15, timeBetweenCircles: 900 }, //Level 1
+      { circles: 20, timeBetweenCircles: 800 }, //Level 2
+      { circles: 25, timeBetweenCircles: 700 }, //Level 3
+      { circles: 30, timeBetweenCircles: 600 }, //Level 4
+      { circles: 35, timeBetweenCircles: 500 }, //Level 5
+      { circles: 40, timeBetweenCircles: 400 }, //Level 6
+      { circles: 45, timeBetweenCircles: 300 }, //Level 7
+      { circles: 50, timeBetweenCircles: 250 }, //Level 8
+      { circles: 55, timeBetweenCircles: 200 }, //Level 9
+      { circles: 60, timeBetweenCircles: 150 }, //Level 10 
     ];
 };
 
