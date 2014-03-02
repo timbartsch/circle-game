@@ -59,19 +59,26 @@ BasicGame.Game.prototype = {
 	},
 
   createCircle: function(){
-    console.log("Created Circle");
     var circle, circleGrowTween, circleShrinkTween;
-    
-    circle = this.circles.create(this.game.world.randomX, this.game.world.randomY, "circle");
-    circle.inputEnabled = true;
-    circle.input.pixelPerfect = true;
-    circle.events.onInputUp.add(this.onCircleInputUp, this);
-    circle.anchor.setTo(0.5, 0.5);
-    circle.scale.setTo(0, 0);
 
+
+    circle = this.circles.getFirstDead();
+    if(circle) {
+      circle.revive();
+      circle.x = this.game.world.randomX;
+      circle.y = this.game.world.randomY;
+    } else {
+      circle = this.circles.create(this.game.world.randomX, this.game.world.randomY, "circle");
+      circle.inputEnabled = true;
+      circle.input.pixelPerfect = true;
+      circle.events.onInputUp.add(this.onCircleInputUp, this);
+      circle.anchor.setTo(0.5, 0.5);
+      circle.game = this;
+    }
+
+    circle.scale.setTo(0, 0);
     circleGrowTween = this.game.add.tween(circle.scale).to({x: 1, y: 1}, 1000, Phaser.Easing.Linear.None);
     circleShrinkTween = this.game.add.tween(circle.scale).to({x: 0, y: 0}, 1000, Phaser.Easing.Linear.None);
-    circle.game = this;
     circleShrinkTween.onComplete.add(this.onCircleShrinkEnd, circle);
     circleGrowTween.chain(circleShrinkTween);
     circle.growTween = circleGrowTween;
