@@ -25,96 +25,26 @@ BasicGame.Game = function (game) {
     this.background;
     this.circles;
     this.scoreText;
-    this.levelText;
-    this.level;
     this.dead;
+    this.spawnTimer;
 
-    this.levels = [
-      { circles: 10, timeBetweenCircles: 1000}, //Level 0 
-      { circles: 15, timeBetweenCircles: 900 }, //Level 1
-      { circles: 20, timeBetweenCircles: 800 }, //Level 2
-      { circles: 25, timeBetweenCircles: 700 }, //Level 3
-      { circles: 30, timeBetweenCircles: 600 }, //Level 4
-      { circles: 35, timeBetweenCircles: 500 }, //Level 5
-      { circles: 40, timeBetweenCircles: 400 }, //Level 6
-      { circles: 45, timeBetweenCircles: 300 }, //Level 7
-      { circles: 50, timeBetweenCircles: 250 }, //Level 8
-      { circles: 55, timeBetweenCircles: 200 }, //Level 9
-      { circles: 60, timeBetweenCircles: 150 }, //Level 10 
-    ];
 };
 
 BasicGame.Game.prototype = {
 
 	create: function () {
     BasicGame.score = 0;
-    this.level = 0;
     this.dead = false;
     this.background = this.game.add.sprite(0, 0, "background");
     this.background.inputEnabled = true;
     this.background.events.onInputUp.add(this.onBackgroundInputUp, this);
-    this.levelText = this.game.add.text(this.world.centerX, this.world.centerY, "0", BasicGame.levelTextStyle);
-    this.levelText.anchor.setTo(0.5, 0.5);
-    this.levelText.scale.setTo(0, 0);
     this.circles = this.game.add.group();
     this.scoreText = this.game.add.text(this.world.centerX, this.world.centerY, "0", BasicGame.scoreTextStyle);
     this.scoreText.anchor.setTo(0.5, 0.5);
 
-    this.startLevel(0); 
+    var timeBetweenCircles = 900;
+    this.spawnTimer = this.time.events.loop(timeBetweenCircles, this.createCircle, this);
 	},
-
-  onScoreTextShrinkComplete: function(){
-    var tween = this.game.add.tween(this.levelText.scale)
-      .to({x: 1, y: 1}, 1000, Phaser.Easing.Quadratic.InOut);
-      tween.onComplete.add(this.onLevelTextGrowComplete, this)
-    tween.start();
-  },
-  onLevelTextGrowComplete: function(){
-    var tween = this.game.add.tween(this.levelText.scale)
-      .to({x: 0, y: 0}, 1000, Phaser.Easing.Quadratic.InOut)
-      .delay(1000);
-      tween.onComplete.add(this.onLevelTextShrinkComplete, this)
-    tween.start();
-  },
-  onLevelTextShrinkComplete: function(){
-    var tween = this.game.add.tween(this.scoreText.scale)
-      .to({x: 1, y: 1}, 1000, Phaser.Easing.Quadratic.InOut);
-    tween.start();
-  },
-
-  startLevel: function(level){
-    this.level = level;
-
-    var circlesCount = this.levels[this.level].circles;
-    var timeBetweenCircles = this.levels[this.level].timeBetweenCircles;
-    var i;
-    var deadCircles = [];
-    var delay = 5000;
-
-    this.levelText.setText(level);
-    
-    var scoreTextTween = this.game.add.tween(this.scoreText.scale)
-      .to({x: 0, y: 0}, 1000, Phaser.Easing.Quadratic.InOut)
-    scoreTextTween.onComplete.add(this.onScoreTextShrinkComplete, this);
-    scoreTextTween.start();
-    
-    this.circles.forEachDead(function(circle, i){
-      deadCircles.push(circle);
-    }, this);
-
-    for(i=0; i < deadCircles.length; i++){
-      this.circles.remove(deadCircles[i]);
-    }
-
-    for(i = 0; i < circlesCount; i++){
-      this.game.time.events.add((timeBetweenCircles * (i + 1)) + delay, this.createCircle, this);
-    }
-
-  },
-
-  startNextLevel: function(){
-    this.startLevel(this.level + 1);
-  },
 
 	update: function () {
     if(this.dead){
@@ -123,17 +53,13 @@ BasicGame.Game.prototype = {
 	},
 
 	quitGame: function (pointer) {
-
-		//	Here you should destroy anything you no longer need.
-		//	Stop music, delete sprites, purge caches, free resources, all that good stuff.
-    
-		//	Then let's go back to the main menu.
+    this.spawnTimer.pendingDelete = true;
     localStorage.setItem("score", BasicGame.score);
 		this.game.state.start('MainMenu');
-
 	},
 
   createCircle: function(){
+    console.log("Created Circle");
     var circle, circleGrowTween, circleShrinkTween;
     
     circle = this.circles.create(this.game.world.randomX, this.game.world.randomY, "circle");
@@ -155,9 +81,6 @@ BasicGame.Game.prototype = {
 
   killCircle: function(circle){
     circle.kill();
-    if(this.circles.countDead() === this.levels[this.level].circles) {
-      this.startNextLevel();
-    }
   },
 
   onCircleShrinkEnd: function(pointer){
