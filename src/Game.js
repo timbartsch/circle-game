@@ -164,7 +164,6 @@ BasicGame.Game.prototype = {
     var circle = this;
 
     circle.game.killCircle(circle);
-    circle.game.updateScore(-5);
     circle.game.misses += 1;
 
   },
@@ -173,11 +172,10 @@ BasicGame.Game.prototype = {
     circle.growTween.stop();
     circle.shrinkTween.stop();
     this.killCircle(circle);
-    this.updateScore(+5);
+    this.updateScore(+1);
   },
 
   onBackgroundInputUp: function(background, pointer){
-    this.updateScore(-10);
   },
 
   updateScore: function(scoreChange){
