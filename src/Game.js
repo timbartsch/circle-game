@@ -176,6 +176,7 @@ BasicGame.Game.prototype = {
   },
 
   onBackgroundInputUp: function(background, pointer){
+    this.quitGame();
   },
 
   updateScore: function(scoreChange){
