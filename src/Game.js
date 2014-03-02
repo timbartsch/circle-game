@@ -79,21 +79,17 @@ BasicGame.Game.prototype = {
     circleGrowTween.start();
   },
 
-  killCircle: function(circle){
-    circle.kill();
-  },
-
   onCircleShrinkEnd: function(pointer){
     var circle = this;
 
-    circle.game.killCircle(circle);
+    circle.kill();
     circle.game.dead = true;
   },
 
   onCircleInputUp: function(circle, pointer){
     circle.growTween.stop();
     circle.shrinkTween.stop();
-    this.killCircle(circle);
+    circle.kill();
     this.updateScore(+1);
   },
 
