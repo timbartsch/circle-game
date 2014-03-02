@@ -26,8 +26,8 @@ BasicGame.Game = function (game) {
     this.circles;
     this.scoreText;
     this.levelText;
-    this.misses;
     this.level;
+    this.dead;
 
     this.levels = [
       { circles: 10, timeBetweenCircles: 1000}, //Level 0 
@@ -48,8 +48,8 @@ BasicGame.Game.prototype = {
 
 	create: function () {
     BasicGame.score = 0;
-    this.misses = 0;
     this.level = 0;
+    this.dead = false;
     this.background = this.game.add.sprite(0, 0, "background");
     this.background.inputEnabled = true;
     this.background.events.onInputUp.add(this.onBackgroundInputUp, this);
@@ -117,7 +117,7 @@ BasicGame.Game.prototype = {
   },
 
 	update: function () {
-    if(this.misses > 3) {
+    if(this.dead){
       this.quitGame();
     }
 	},
@@ -164,8 +164,7 @@ BasicGame.Game.prototype = {
     var circle = this;
 
     circle.game.killCircle(circle);
-    circle.game.misses += 1;
-
+    circle.game.dead = true;
   },
 
   onCircleInputUp: function(circle, pointer){
@@ -176,7 +175,7 @@ BasicGame.Game.prototype = {
   },
 
   onBackgroundInputUp: function(background, pointer){
-    this.quitGame();
+    this.dead = true;
   },
 
   updateScore: function(scoreChange){
