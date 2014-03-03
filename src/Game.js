@@ -44,6 +44,7 @@ BasicGame.Game.prototype = {
 
     var timeBetweenCircles = 900;
     this.spawnTimer = this.time.events.loop(timeBetweenCircles, this.createCircle, this);
+    console.log(this.spawnTimer);
 	},
 
 	update: function () {
@@ -97,6 +98,7 @@ BasicGame.Game.prototype = {
     circle.growTween.stop();
     circle.shrinkTween.stop();
     circle.kill();
+    this.spawnTimer.delay -= 5;
     this.updateScore(+1);
   },
 
