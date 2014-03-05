@@ -74,6 +74,7 @@ BasicGame.Game.prototype = {
       circle.input.pixelPerfect = true;
       circle.events.onInputUp.add(this.onCircleInputUp, this);
       circle.anchor.setTo(0.5, 0.5);
+      circle.alpha = 0.5;
       circle.game = this;
     }
 
@@ -98,8 +99,8 @@ BasicGame.Game.prototype = {
     circle.growTween.stop();
     circle.shrinkTween.stop();
     circle.kill();
-    this.spawnTimer.delay -= 5;
     this.updateScore(+1);
+    this.spawnTimer.delay = 40 * (Math.log(BasicGame.score) / Math.log(1/2)) + 600;
   },
 
   onBackgroundInputUp: function(background, pointer){
