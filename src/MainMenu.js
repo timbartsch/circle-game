@@ -9,6 +9,8 @@ BasicGame.MainMenu.prototype = {
 
 	create: function () {
     this.background = this.game.add.sprite(0, 0, "background");
+    this.background.inputEnabled = true;
+    this.background.events.onInputUp.add(this.requestFullScreen, this);
     this.circle = this.game.add.sprite(this.world.centerX, this.world.centerY, "circle_big");
     this.circle.anchor.setTo(0.5, 0.5);
     this.circle.scale.setTo(0, 0);
@@ -42,6 +44,14 @@ BasicGame.MainMenu.prototype = {
 
 	startGame: function (pointer) {
 		this.game.state.start('Game');
-	}
-
+	},
+  requestFullScreen: function(){
+    if( document.documentElement.webkitRequestFullScreen){
+      document.documentElement.webkitRequestFullScreen();
+    } else if( document.documentElement.mozRequestFullScreen){
+      document.documentElement.mozRequestFullScreen();
+    } else if( document.documentElement.msRequestFullScreen){
+      document.documentElement.msRequestFullScreen();
+    }
+  }
 };
